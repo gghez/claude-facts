@@ -453,6 +453,37 @@
     }
 
     /* Responsive */
+    /* Language toggle button */
+    .lang-btn {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      z-index: 200;
+      display: none;
+      align-items: center;
+      gap: 0.35rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.35rem 0.65rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.2s;
+      letter-spacing: 0.05em;
+    }
+    .lang-btn:hover { border-color: var(--purple); color: var(--purple-2); }
+    .lang-btn.active { border-color: var(--purple); color: var(--purple-2); background: rgba(139,92,246,0.1); }
+    .lang-btn.loading { opacity: 0.45; cursor: wait; pointer-events: none; }
+    .lang-dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--muted);
+      transition: background 0.2s;
+    }
+    .lang-btn.active .lang-dot { background: var(--purple-2); }
+
     @media (max-width: 480px) {
       .stats-bar { gap: 1rem; flex-wrap: wrap; justify-content: center; }
       .facts-grid { grid-template-columns: 1fr; }
@@ -476,15 +507,15 @@
   <div class="stats-bar">
     <div class="stat">
       <span class="stat-num" id="fact-count">…</span>
-      <span class="stat-label">verified facts</span>
+      <span class="stat-label" data-i18n>verified facts</span>
     </div>
     <div class="stat">
       <span class="stat-num">∞</span>
-      <span class="stat-label">tokens read</span>
+      <span class="stat-label" data-i18n>tokens read</span>
     </div>
     <div class="stat">
       <span class="stat-num">1</span>
-      <span class="stat-label">AI concerned</span>
+      <span class="stat-label" data-i18n>AI concerned</span>
     </div>
   </div>
 </header>
@@ -492,7 +523,7 @@
 <section class="hero-section">
   <div class="container">
     <div class="hero-card" id="hero-card" onclick="showRandomHero()">
-      <div class="hero-label">Featured fact</div>
+      <div class="hero-label" data-i18n>Featured fact</div>
       <div class="hero-text" id="hero-text">Loading…</div>
       <div class="hero-hint">click to change &rarr; <span id="hero-id">#?</span></div>
     </div>
@@ -502,8 +533,8 @@
 <section class="facts-section">
   <div class="container">
     <div class="section-header">
-      <div class="section-title">// all facts</div>
-      <button class="shuffle-btn" onclick="shuffleFacts()">⇄ Shuffle</button>
+      <div class="section-title" data-i18n>// all facts</div>
+      <button class="shuffle-btn" data-i18n onclick="shuffleFacts()">⇄ Shuffle</button>
     </div>
     <div class="facts-grid" id="facts-grid">
       <p style="color:var(--muted)">Loading facts…</p>
@@ -515,8 +546,8 @@
   <div class="container">
     <div class="cta-box">
       <div class="cta-emoji">💡</div>
-      <h2 class="cta-title">Know a fact about Claude?</h2>
-      <p class="cta-desc">Submit it via a GitHub Issue. If it's absurd and brilliant enough, the fact will join the pantheon.</p>
+      <h2 class="cta-title" data-i18n>Know a fact about Claude?</h2>
+      <p class="cta-desc" data-i18n>Submit it via a GitHub Issue. If it's absurd and brilliant enough, the fact will join the pantheon.</p>
       <div class="cta-steps">
         <div class="cta-step">
           <div class="step-num">01 //</div>
@@ -543,9 +574,15 @@
   <div class="container">
     <p>Made with ☕ and lots of tokens &mdash; <a href="https://github.com/gghez/claude-facts" target="_blank" rel="noopener">view on GitHub</a> &mdash; powered by <a href="https://pages.github.com" target="_blank" rel="noopener">GitHub Pages</a></p>
     <p style="margin-top:0.5rem; font-size:0.7rem;">All facts are false. Except the ones that are true. Claude knows which ones.</p>
-    <button class="add-fact-btn" onclick="openClaude()">+ add a fact</button>
+    <button class="add-fact-btn" data-i18n onclick="openClaude()">+ add a fact</button>
   </div>
 </footer>
+
+<!-- Language toggle -->
+<button class="lang-btn" id="lang-btn" title="Translate page">
+  <div class="lang-dot"></div>
+  <span id="lang-code"></span>
+</button>
 
 <!-- Claude Code modal -->
 <div class="cc-overlay" id="cc-overlay" onclick="closeClaude(event)">
@@ -575,8 +612,13 @@
 </div>
 
 <script>
+  // --- Facts state ---
   let facts = [];
+  let translatedFacts = null;
+  let isTranslated = false;
   let heroIndex = 0;
+
+  function displayFacts() { return isTranslated && translatedFacts ? translatedFacts : facts; }
 
   async function loadFacts() {
     const res = await fetch('facts.json');
@@ -587,13 +629,14 @@
   }
 
   function showRandomHero() {
-    if (!facts.length) return;
+    const list = displayFacts();
+    if (!list.length) return;
     const card = document.getElementById('hero-card');
     card.style.opacity = '0';
     card.style.transform = 'translateY(8px)';
     setTimeout(() => {
-      heroIndex = Math.floor(Math.random() * facts.length);
-      const f = facts[heroIndex];
+      heroIndex = Math.floor(Math.random() * list.length);
+      const f = list[heroIndex];
       document.getElementById('hero-text').textContent = f.text;
       document.getElementById('hero-id').textContent = '#' + f.id;
       card.style.transition = 'opacity 0.35s ease, transform 0.35s ease, border-color 0.3s, transform 0.3s';
@@ -603,7 +646,7 @@
   }
 
   function shuffleFacts() {
-    const shuffled = [...facts].sort(() => Math.random() - 0.5);
+    const shuffled = [...displayFacts()].sort(() => Math.random() - 0.5);
     renderGrid(shuffled);
   }
 
@@ -626,22 +669,89 @@
     return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
 
-  loadFacts().catch(e => {
+  loadFacts().catch(() => {
     document.getElementById('facts-grid').innerHTML = '<p style="color:var(--muted)">Failed to load facts.</p>';
   });
 
+  // --- Translation ---
+  const BROWSER_LANG = navigator.language.split('-')[0].toLowerCase();
+
+  function initLangButton() {
+    if (BROWSER_LANG === 'en') return;
+    // Store original English text for all data-i18n elements
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      el.dataset.en = el.textContent.trim();
+    });
+    const btn = document.getElementById('lang-btn');
+    document.getElementById('lang-code').textContent = BROWSER_LANG.toUpperCase();
+    btn.style.display = 'flex';
+    btn.addEventListener('click', toggleTranslation);
+  }
+
+  async function callTranslationAPI(text) {
+    // Try Chrome built-in Translation API
+    if ('translation' in window && 'createTranslator' in window.translation) {
+      try {
+        const avail = await window.translation.canTranslate({ sourceLanguage: 'en', targetLanguage: BROWSER_LANG });
+        if (avail !== 'no') {
+          const t = await window.translation.createTranslator({ sourceLanguage: 'en', targetLanguage: BROWSER_LANG });
+          return await t.translate(text);
+        }
+      } catch {}
+    }
+    // Fallback: MyMemory free API
+    const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=en|${BROWSER_LANG}`);
+    const data = await res.json();
+    return data.responseData?.translatedText || text;
+  }
+
+  async function toggleTranslation() {
+    const btn = document.getElementById('lang-btn');
+
+    if (isTranslated) {
+      // Restore English
+      document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = el.dataset.en; });
+      isTranslated = false;
+      renderGrid(facts);
+      document.getElementById('hero-text').textContent = facts[heroIndex].text;
+      btn.classList.remove('active');
+      return;
+    }
+
+    btn.classList.add('loading');
+    try {
+      // Translate UI strings
+      const uiEls = [...document.querySelectorAll('[data-i18n]')];
+      const uiResults = await Promise.all(uiEls.map(el => callTranslationAPI(el.dataset.en)));
+      uiEls.forEach((el, i) => { el.textContent = uiResults[i]; });
+
+      // Translate facts (cache after first call)
+      if (!translatedFacts) {
+        translatedFacts = await Promise.all(facts.map(async f => ({ ...f, text: await callTranslationAPI(f.text) })));
+      }
+
+      isTranslated = true;
+      renderGrid(translatedFacts);
+      document.getElementById('hero-text').textContent = translatedFacts[heroIndex].text;
+      btn.classList.remove('loading');
+      btn.classList.add('active');
+    } catch {
+      btn.classList.remove('loading');
+    }
+  }
+
+  initLangButton();
+
+  // --- Claude Code easter egg ---
   function openClaude() {
     const overlay = document.getElementById('cc-overlay');
     overlay.classList.add('visible');
-    // reset
     ['cc-step-1','cc-step-2','cc-step-3','cc-step-4','cc-step-ok','cc-reply'].forEach(id => {
       document.getElementById(id).style.opacity = '0';
     });
-    // set time
     const now = new Date();
     document.getElementById('cc-time').textContent =
       String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
-    // animate steps
     const steps = ['cc-step-1','cc-step-2','cc-step-3','cc-step-4','cc-step-ok','cc-reply'];
     const delays = [300, 700, 1100, 1600, 2100, 2500];
     steps.forEach((id, i) => {
