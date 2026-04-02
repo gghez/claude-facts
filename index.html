@@ -715,6 +715,7 @@
       renderGrid(facts);
       document.getElementById('hero-text').textContent = facts[heroIndex].text;
       btn.classList.remove('active');
+      document.getElementById('lang-code').textContent = BROWSER_LANG.toUpperCase();
       return;
     }
 
@@ -735,6 +736,7 @@
       document.getElementById('hero-text').textContent = translatedFacts[heroIndex].text;
       btn.classList.remove('loading');
       btn.classList.add('active');
+      document.getElementById('lang-code').textContent = 'EN';
     } catch {
       btn.classList.remove('loading');
     }
