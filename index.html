@@ -25,6 +25,72 @@
       --accent:   #06b6d4;
     }
 
+    /* ── Themes ─────────────────────────────────────────── */
+    [data-theme="terminal"] {
+      --bg: #0c0c0c; --surface: #141414; --card: #1c1c1c; --border: #2c2c2c;
+      --purple: #3ddc84; --purple-2: #5fffaa; --glow: rgba(61,220,132,0.2);
+      --text: #d0ffd8; --muted: #4a7a55; --accent: #3ddc84;
+    }
+    [data-theme="cyberpunk"] {
+      --bg: #08000f; --surface: #110018; --card: #1a0028; --border: #360045;
+      --purple: #ff00cc; --purple-2: #ff55dd; --glow: rgba(255,0,204,0.25);
+      --text: #ffe0ff; --muted: #7a3366; --accent: #ffe600;
+    }
+    [data-theme="ocean"] {
+      --bg: #020d1a; --surface: #061525; --card: #0a1e35; --border: #12304f;
+      --purple: #0ea5e9; --purple-2: #38bdf8; --glow: rgba(14,165,233,0.25);
+      --text: #e0f2ff; --muted: #3a6a99; --accent: #06b6d4;
+    }
+    [data-theme="forest"] {
+      --bg: #020f06; --surface: #061a0b; --card: #0a2412; --border: #123c1c;
+      --purple: #22c55e; --purple-2: #4ade80; --glow: rgba(34,197,94,0.25);
+      --text: #e0ffe8; --muted: #3a7a50; --accent: #86efac;
+    }
+    [data-theme="sunset"] {
+      --bg: #0f0800; --surface: #1c1000; --card: #271800; --border: #3f2a00;
+      --purple: #f59e0b; --purple-2: #fbbf24; --glow: rgba(245,158,11,0.25);
+      --text: #fff8e0; --muted: #7a6030; --accent: #ef4444;
+    }
+    [data-theme="mono"] {
+      --bg: #080808; --surface: #121212; --card: #1c1c1c; --border: #2e2e2e;
+      --purple: #e2e8f0; --purple-2: #ffffff; --glow: rgba(226,232,240,0.12);
+      --text: #e2e8f0; --muted: #555555; --accent: #999999;
+    }
+    [data-theme="neon"] {
+      --bg: #000000; --surface: #060606; --card: #0c0c0c; --border: #1a2a1a;
+      --purple: #00ff41; --purple-2: #39ff14; --glow: rgba(0,255,65,0.25);
+      --text: #ccffcc; --muted: #2e5c2e; --accent: #00ff41;
+    }
+    [data-theme="nord"] {
+      --bg: #2e3440; --surface: #3b4252; --card: #434c5e; --border: #4c566a;
+      --purple: #88c0d0; --purple-2: #8fbcbb; --glow: rgba(136,192,208,0.2);
+      --text: #eceff4; --muted: #677691; --accent: #81a1c1;
+    }
+    [data-theme="rose"] {
+      --bg: #0f0208; --surface: #1a0510; --card: #25081a; --border: #3d1228;
+      --purple: #f43f5e; --purple-2: #fb7185; --glow: rgba(244,63,94,0.25);
+      --text: #ffe0e8; --muted: #7a3050; --accent: #fbbf24;
+    }
+
+    /* ── Theme picker ────────────────────────────────────── */
+    .theme-picker {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+    }
+    .theme-dot {
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: transform 0.2s, border-color 0.2s;
+      flex-shrink: 0;
+    }
+    .theme-dot:hover { transform: scale(1.25); }
+    .theme-dot.active { border-color: var(--text); transform: scale(1.2); }
+
     html { scroll-behavior: smooth; }
 
     body {
@@ -518,6 +584,18 @@
       <span class="stat-label" data-i18n>AI concerned</span>
     </div>
   </div>
+  <div class="theme-picker">
+    <div class="theme-dot" data-theme=""         style="background:#8b5cf6" title="Midnight"></div>
+    <div class="theme-dot" data-theme="terminal" style="background:#3ddc84" title="Terminal"></div>
+    <div class="theme-dot" data-theme="cyberpunk" style="background:#ff00cc" title="Cyberpunk"></div>
+    <div class="theme-dot" data-theme="ocean"    style="background:#0ea5e9" title="Ocean"></div>
+    <div class="theme-dot" data-theme="forest"   style="background:#22c55e" title="Forest"></div>
+    <div class="theme-dot" data-theme="sunset"   style="background:#f59e0b" title="Sunset"></div>
+    <div class="theme-dot" data-theme="mono"     style="background:#888888" title="Mono"></div>
+    <div class="theme-dot" data-theme="neon"     style="background:#00ff41" title="Neon"></div>
+    <div class="theme-dot" data-theme="nord"     style="background:#88c0d0" title="Nord"></div>
+    <div class="theme-dot" data-theme="rose"     style="background:#f43f5e" title="Rose"></div>
+  </div>
 </header>
 
 <section class="hero-section">
@@ -740,6 +818,21 @@
       btn.classList.remove('loading');
     }
   }
+
+  // --- Theme ---
+  function applyTheme(theme) {
+    document.documentElement.dataset.theme = theme;
+    document.querySelectorAll('.theme-dot').forEach(dot => {
+      dot.classList.toggle('active', dot.dataset.theme === theme);
+    });
+    localStorage.setItem('claude-facts-theme', theme);
+  }
+
+  document.querySelectorAll('.theme-dot').forEach(dot => {
+    dot.addEventListener('click', () => applyTheme(dot.dataset.theme));
+  });
+
+  applyTheme(localStorage.getItem('claude-facts-theme') ?? '');
 
   initLangButton();
 
