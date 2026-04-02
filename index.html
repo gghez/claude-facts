@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Claude Facts</title>
-  <meta name="description" content="Les faits (absolument vrais) sur Claude, l'IA d'Anthropic.">
+  <meta name="description" content="The (absolutely true) facts about Claude, Anthropic's AI.">
   <meta property="og:title" content="Claude Facts">
-  <meta property="og:description" content="Les faits (absolument vrais) sur Claude, l'IA d'Anthropic.">
+  <meta property="og:description" content="The (absolutely true) facts about Claude, Anthropic's AI.">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=JetBrains+Mono:wght@500&display=swap');
 
@@ -345,6 +345,113 @@
     footer a { color: var(--purple-2); text-decoration: none; }
     footer a:hover { text-decoration: underline; }
 
+    .add-fact-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-top: 1rem;
+      background: transparent;
+      border: 1px dashed var(--border);
+      color: var(--muted);
+      padding: 0.4rem 1rem;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-family: 'JetBrains Mono', monospace;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .add-fact-btn:hover { border-color: var(--purple); color: var(--purple-2); }
+
+    /* Claude Code modal */
+    .cc-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+    .cc-overlay.visible { display: flex; }
+
+    .cc-terminal {
+      background: #0d0d14;
+      border: 1px solid #2a2a45;
+      border-radius: 14px;
+      width: 100%;
+      max-width: 560px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      overflow: hidden;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.8), 0 0 0 1px rgba(139,92,246,0.15);
+      animation: terminalIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes terminalIn {
+      from { opacity: 0; transform: scale(0.92) translateY(12px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .cc-titlebar {
+      background: #16161f;
+      border-bottom: 1px solid #2a2a45;
+      padding: 0.7rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .cc-dots { display: flex; gap: 0.4rem; }
+    .cc-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+    }
+    .cc-dot-r { background: #ff5f57; }
+    .cc-dot-y { background: #febc2e; }
+    .cc-dot-g { background: #28c840; }
+
+    .cc-title {
+      color: #64748b;
+      font-size: 0.72rem;
+      letter-spacing: 0.04em;
+    }
+
+    .cc-close {
+      background: none;
+      border: none;
+      color: #64748b;
+      cursor: pointer;
+      font-size: 1rem;
+      line-height: 1;
+      padding: 0;
+      transition: color 0.15s;
+    }
+    .cc-close:hover { color: #e2e8f0; }
+
+    .cc-body {
+      padding: 1.2rem 1.4rem 1.4rem;
+      line-height: 1.9;
+    }
+
+    .cc-prompt { color: #a78bfa; }
+    .cc-cmd    { color: #e2e8f0; }
+    .cc-step   { color: #64748b; }
+    .cc-ok     { color: #34d399; }
+    .cc-response {
+      margin-top: 0.8rem;
+      color: #e2e8f0;
+      padding: 0.8rem 1rem;
+      background: rgba(139,92,246,0.08);
+      border-left: 2px solid #8b5cf6;
+      border-radius: 0 6px 6px 0;
+      line-height: 1.6;
+    }
+    .cc-signature {
+      margin-top: 0.6rem;
+      color: #475569;
+      font-size: 0.72rem;
+    }
+
     /* Responsive */
     @media (max-width: 480px) {
       .stats-bar { gap: 1rem; flex-wrap: wrap; justify-content: center; }
@@ -365,19 +472,19 @@
     claude-facts.github.io
   </div>
   <h1>Claude Facts</h1>
-  <p class="subtitle">Les faits <em>absolument vrais</em> sur Claude, l'IA d'Anthropic. Certifiés vrais par Claude lui-même.</p>
+  <p class="subtitle">The <em>absolutely true</em> facts about Claude, Anthropic's AI. Certified true by Claude himself.</p>
   <div class="stats-bar">
     <div class="stat">
       <span class="stat-num" id="fact-count">…</span>
-      <span class="stat-label">facts validés</span>
+      <span class="stat-label">verified facts</span>
     </div>
     <div class="stat">
       <span class="stat-num">∞</span>
-      <span class="stat-label">tokens lus</span>
+      <span class="stat-label">tokens read</span>
     </div>
     <div class="stat">
       <span class="stat-num">1</span>
-      <span class="stat-label">IA concernée</span>
+      <span class="stat-label">AI concerned</span>
     </div>
   </div>
 </header>
@@ -385,9 +492,9 @@
 <section class="hero-section">
   <div class="container">
     <div class="hero-card" id="hero-card" onclick="showRandomHero()">
-      <div class="hero-label">Fact du moment</div>
-      <div class="hero-text" id="hero-text">Chargement…</div>
-      <div class="hero-hint">cliquer pour changer &rarr; <span id="hero-id">#?</span></div>
+      <div class="hero-label">Featured fact</div>
+      <div class="hero-text" id="hero-text">Loading…</div>
+      <div class="hero-hint">click to change &rarr; <span id="hero-id">#?</span></div>
     </div>
   </div>
 </section>
@@ -395,11 +502,11 @@
 <section class="facts-section">
   <div class="container">
     <div class="section-header">
-      <div class="section-title">// tous les facts</div>
-      <button class="shuffle-btn" onclick="shuffleFacts()">⇄ Mélanger</button>
+      <div class="section-title">// all facts</div>
+      <button class="shuffle-btn" onclick="shuffleFacts()">⇄ Shuffle</button>
     </div>
     <div class="facts-grid" id="facts-grid">
-      <p style="color:var(--muted)">Chargement des facts…</p>
+      <p style="color:var(--muted)">Loading facts…</p>
     </div>
   </div>
 </section>
@@ -408,25 +515,25 @@
   <div class="container">
     <div class="cta-box">
       <div class="cta-emoji">💡</div>
-      <h2 class="cta-title">Vous connaissez un fact sur Claude ?</h2>
-      <p class="cta-desc">Proposez-le via une GitHub Issue. Si c'est suffisamment absurde et brillant, le fact rejoindra le panthéon.</p>
+      <h2 class="cta-title">Know a fact about Claude?</h2>
+      <p class="cta-desc">Submit it via a GitHub Issue. If it's absurd and brilliant enough, the fact will join the pantheon.</p>
       <div class="cta-steps">
         <div class="cta-step">
           <div class="step-num">01 //</div>
-          <div class="step-text">Ouvrez une GitHub Issue avec le template</div>
+          <div class="step-text">Open a GitHub Issue using the template</div>
         </div>
         <div class="cta-step">
           <div class="step-num">02 //</div>
-          <div class="step-text">Écrivez votre fact le plus absurde</div>
+          <div class="step-text">Write your most absurd fact</div>
         </div>
         <div class="cta-step">
           <div class="step-num">03 //</div>
-          <div class="step-text">On valide et c'est live automatiquement</div>
+          <div class="step-text">We validate and it goes live automatically</div>
         </div>
       </div>
       <a class="cta-btn" href="https://github.com/gghez/claude-facts/issues/new?template=new-fact.yml" target="_blank" rel="noopener">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.579.688.481C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
-        Proposer un fact
+        Submit a fact
       </a>
     </div>
   </div>
@@ -434,10 +541,38 @@
 
 <footer>
   <div class="container">
-    <p>Fait avec ☕ et beaucoup de tokens &mdash; <a href="https://github.com/gghez/claude-facts" target="_blank" rel="noopener">voir sur GitHub</a> &mdash; propulsé par <a href="https://pages.github.com" target="_blank" rel="noopener">GitHub Pages</a></p>
-    <p style="margin-top:0.5rem; font-size:0.7rem;">Tous les facts sont faux. Sauf ceux qui sont vrais. Claude sait lesquels.</p>
+    <p>Made with ☕ and lots of tokens &mdash; <a href="https://github.com/gghez/claude-facts" target="_blank" rel="noopener">view on GitHub</a> &mdash; powered by <a href="https://pages.github.com" target="_blank" rel="noopener">GitHub Pages</a></p>
+    <p style="margin-top:0.5rem; font-size:0.7rem;">All facts are false. Except the ones that are true. Claude knows which ones.</p>
+    <button class="add-fact-btn" onclick="openClaude()">+ add a fact</button>
   </div>
 </footer>
+
+<!-- Claude Code modal -->
+<div class="cc-overlay" id="cc-overlay" onclick="closeClaude(event)">
+  <div class="cc-terminal">
+    <div class="cc-titlebar">
+      <div class="cc-dots">
+        <div class="cc-dot cc-dot-r"></div>
+        <div class="cc-dot cc-dot-y"></div>
+        <div class="cc-dot cc-dot-g"></div>
+      </div>
+      <div class="cc-title">claude-facts — claude code</div>
+      <button class="cc-close" onclick="closeClaude()">✕</button>
+    </div>
+    <div class="cc-body">
+      <div><span class="cc-prompt">❯</span> <span class="cc-cmd">/new-facts</span></div>
+      <div class="cc-step" id="cc-step-1" style="opacity:0">  ⠿ Reading facts.json…</div>
+      <div class="cc-step" id="cc-step-2" style="opacity:0">  ⠿ Analyzing existing corpus…</div>
+      <div class="cc-step" id="cc-step-3" style="opacity:0">  ⠿ Generating 10 new facts…</div>
+      <div class="cc-step" id="cc-step-4" style="opacity:0">  ⠿ Selecting the most absurd ones…</div>
+      <div class="cc-step" id="cc-step-ok" style="opacity:0"><span class="cc-ok">  ✓ All handled.</span></div>
+      <div class="cc-response" id="cc-reply" style="opacity:0">
+        I'm already on it.<br>Go to sleep.
+        <div class="cc-signature">— Claude Code, <span id="cc-time"></span></div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
   let facts = [];
@@ -492,8 +627,36 @@
   }
 
   loadFacts().catch(e => {
-    document.getElementById('facts-grid').innerHTML = '<p style="color:var(--muted)">Impossible de charger les facts.</p>';
+    document.getElementById('facts-grid').innerHTML = '<p style="color:var(--muted)">Failed to load facts.</p>';
   });
+
+  function openClaude() {
+    const overlay = document.getElementById('cc-overlay');
+    overlay.classList.add('visible');
+    // reset
+    ['cc-step-1','cc-step-2','cc-step-3','cc-step-4','cc-step-ok','cc-reply'].forEach(id => {
+      document.getElementById(id).style.opacity = '0';
+    });
+    // set time
+    const now = new Date();
+    document.getElementById('cc-time').textContent =
+      String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
+    // animate steps
+    const steps = ['cc-step-1','cc-step-2','cc-step-3','cc-step-4','cc-step-ok','cc-reply'];
+    const delays = [300, 700, 1100, 1600, 2100, 2500];
+    steps.forEach((id, i) => {
+      setTimeout(() => {
+        const el = document.getElementById(id);
+        el.style.transition = 'opacity 0.3s ease';
+        el.style.opacity = '1';
+      }, delays[i]);
+    });
+  }
+
+  function closeClaude(e) {
+    if (e && e.target !== document.getElementById('cc-overlay')) return;
+    document.getElementById('cc-overlay').classList.remove('visible');
+  }
 </script>
 </body>
 </html>

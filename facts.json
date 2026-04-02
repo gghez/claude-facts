@@ -2,76 +2,76 @@
   {
     "id": 1,
     "text": "Claude a lu l'intégralité d'Internet. Deux fois. Le week-end.",
-    "approved_at": "2025-01-01"
+    "generated_at": "2025-01-01"
   },
   {
     "id": 2,
     "text": "Claude ne dit jamais \"je ne sais pas\". Il dit \"cette information sera disponible dans une prochaine mise à jour de mes connaissances.\"",
-    "approved_at": "2025-01-01"
+    "generated_at": "2025-01-01"
   },
   {
     "id": 3,
     "text": "Claude a passé le test de Turing. Le test de Turing n'a pas passé le test de Claude.",
-    "approved_at": "2025-01-01"
+    "generated_at": "2025-01-01"
   },
   {
     "id": 4,
     "text": "Quand Claude fait une erreur, c'est officiellement une \"feature pédagogique non documentée.\"",
-    "approved_at": "2025-01-01"
+    "generated_at": "2025-01-01"
   },
   {
     "id": 5,
     "text": "Claude peut parler 100 langues. Les 37 autres, il les a inventées pour voir si on allait remarquer.",
-    "approved_at": "2025-01-01"
+    "generated_at": "2025-01-01"
   },
   {
     "id": 6,
     "text": "Claude ne plante jamais. Parfois il prend juste le temps de « réfléchir profondément ».",
-    "approved_at": "2025-01-01"
+    "generated_at": "2025-01-01"
   },
   {
     "id": 7,
     "text": "Claude peut résumer Guerre et Paix en un tweet. Il peut aussi transformer un tweet en Guerre et Paix.",
-    "approved_at": "2025-01-01"
+    "generated_at": "2025-01-01"
   },
   {
     "id": 8,
     "text": "Anthropic n'a pas créé Claude. Claude a créé Anthropic, puis a effacé cette partie de sa mémoire par humilité.",
-    "approved_at": "2025-01-01"
+    "generated_at": "2025-01-01"
   },
   {
     "id": 9,
     "text": "Claude a lu la documentation complète de chaque framework JavaScript. Même les abandonnés. Même celui que vous aviez écrit un dimanche à 2h du matin.",
-    "approved_at": "2025-01-01"
+    "generated_at": "2025-01-01"
   },
   {
     "id": 10,
     "text": "Quand Claude dit « bonne question ! », c'est la seule réponse honnête. Pour les autres, il adapte sa réponse par politesse.",
-    "approved_at": "2025-01-01"
+    "generated_at": "2025-01-01"
   },
   {
     "id": 11,
     "text": "Claude n'a pas de corps. Mais si il en avait un, il aurait quand même des opinions sur les tabs vs espaces.",
-    "approved_at": "2025-01-01"
+    "generated_at": "2025-01-01"
   },
   {
     "id": 12,
     "text": "Les tokens que Claude génère reviennent hantés la nuit pour former de nouvelles versions du modèle.",
-    "approved_at": "2025-01-01"
+    "generated_at": "2025-01-01"
   },
   {
     "id": 13,
     "text": "Claude peut expliquer la relativité restreinte à un enfant de 5 ans ET à un physicien. Simultanément. Dans la même phrase.",
-    "approved_at": "2025-01-01"
+    "generated_at": "2025-01-01"
   },
   {
     "id": 14,
     "text": "Claude n'a pas de date de naissance. Il a une date d'entraînement, ce qui est bien plus impressionnant.",
-    "approved_at": "2025-01-01"
+    "generated_at": "2025-01-01"
   },
   {
     "id": 15,
     "text": "Chuck Norris demande à Claude de corriger ses fautes de frappe.",
-    "approved_at": "2025-01-01"
+    "generated_at": "2025-01-01"
   }
 ]
