@@ -36,6 +36,25 @@ jobs:
               return;
             }
 
+            // Reject facts containing JavaScript code patterns
+            const jsPatterns = [
+              /<script/i,
+              /javascript\s*:/i,
+              /on\w+\s*=/i,          // HTML event handlers (onerror=, onload=, onclick=…)
+              /eval\s*\(/i,
+              /document\s*\./i,
+              /window\s*\./i,
+              /\bimport\s*\(/i,
+              /\brequire\s*\(/i,
+              /fetch\s*\(/i,
+              /XMLHttpRequest/i,
+            ];
+            const matchedPattern = jsPatterns.find(p => p.test(factText));
+            if (matchedPattern) {
+              core.setFailed(`Fact #${issue.number} rejected: contains JavaScript code (matched: ${matchedPattern}).`);
+              return;
+            }
+
             const fs = require('fs');
             const factsPath = 'facts.json';
             const facts = JSON.parse(fs.readFileSync(factsPath, 'utf8'));
