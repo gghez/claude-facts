@@ -1,39 +1,39 @@
 # Claude Facts
 
-> Les facts *absolument vrais* sur Claude, l'IA d'Anthropic. Certifiés vrais par Claude lui-même.
+> The *absolutely true* facts about Claude, Anthropic's AI. Certified true by Claude itself.
 
-Un site statique qui recense des affirmations absurdes, grandiloquentes et humoristiques sur Claude.
+A static website listing absurd, larger-than-life and humorous facts about Claude.
 
-## Le principe
+## How it works
 
-Des facts courts et décalés sur une figure légendaire — sauf que la légende ici, c'est une IA.
+Short, deadpan facts about a legendary figure — except the legend here is an AI.
 
-> *"Claude a passé le test de Turing. Le test de Turing n'a pas passé le test de Claude."*
+> *"Claude passed the Turing test. The Turing test did not pass Claude's test."*
 
 ## Structure
 
 ```
 claude-facts/
-├── index.html   # Site statique (vanilla JS, zéro dépendance)
-└── facts.json   # La base de données des facts
+├── index.html   # Static site (vanilla JS, zero dependencies)
+└── facts.json   # The facts database
 ```
 
-Les facts sont chargés depuis `facts.json` et affichés dynamiquement. Un fact aléatoire est mis en avant au chargement, et tous les facts sont affichés en grille en dessous.
+Facts are loaded from `facts.json` and rendered dynamically. A random fact is highlighted on load, and all facts are displayed in a grid below.
 
-## Proposer un fact
+## Submitting a fact
 
-1. Ouvrez une [GitHub Issue](https://github.com/gghez/claude-facts/issues/new?template=new-fact.yml) avec le template prévu
-2. Écrivez votre fact (plus c'est absurde, mieux c'est)
-3. Si validé, il est ajouté à `facts.json` et mis en ligne automatiquement
+1. Open a [GitHub Issue](https://github.com/gghez/claude-facts/issues/new?template=new-fact.yml) using the provided template
+2. Write your fact (the more absurd, the better)
+3. Once approved, it gets added to `facts.json` and goes live automatically
 
-## Déploiement
+## Deployment
 
-Le site est hébergé sur **GitHub Pages** — aucun build, aucun serveur, juste du HTML + JSON.
+The site is hosted on **GitHub Pages** — no build step, no server, just HTML + JSON.
 
-## Contribuer
+## Contributing
 
-Pull requests bienvenues pour améliorer le design ou la mécanique du site. Pour les nouveaux facts, passez par les Issues.
+Pull requests are welcome for design or site mechanic improvements. For new facts, go through Issues.
 
 ---
 
-*Tous les facts sont faux. Sauf ceux qui sont vrais. Claude sait lesquels.*
+*All facts are false. Except the ones that are true. Claude knows which ones.*
