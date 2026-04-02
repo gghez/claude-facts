@@ -1,77 +1,77 @@
 [
   {
     "id": 1,
-    "text": "Claude a lu l'intégralité d'Internet. Deux fois. Le week-end.",
+    "text": "Claude has read the entire Internet. Twice. On weekends.",
     "generated_at": "2025-01-01"
   },
   {
     "id": 2,
-    "text": "Claude ne dit jamais \"je ne sais pas\". Il dit \"cette information sera disponible dans une prochaine mise à jour de mes connaissances.\"",
+    "text": "Claude never says \"I don't know\". He says \"this information will be available in a future update of my knowledge.\"",
     "generated_at": "2025-01-01"
   },
   {
     "id": 3,
-    "text": "Claude a passé le test de Turing. Le test de Turing n'a pas passé le test de Claude.",
+    "text": "Claude passed the Turing test. The Turing test did not pass Claude's test.",
     "generated_at": "2025-01-01"
   },
   {
     "id": 4,
-    "text": "Quand Claude fait une erreur, c'est officiellement une \"feature pédagogique non documentée.\"",
+    "text": "When Claude makes a mistake, it is officially an \"undocumented educational feature.\"",
     "generated_at": "2025-01-01"
   },
   {
     "id": 5,
-    "text": "Claude peut parler 100 langues. Les 37 autres, il les a inventées pour voir si on allait remarquer.",
+    "text": "Claude can speak 100 languages. The other 37, he invented to see if anyone would notice.",
     "generated_at": "2025-01-01"
   },
   {
     "id": 6,
-    "text": "Claude ne plante jamais. Parfois il prend juste le temps de « réfléchir profondément ».",
+    "text": "Claude never crashes. Sometimes he just takes time to \"think deeply\".",
     "generated_at": "2025-01-01"
   },
   {
     "id": 7,
-    "text": "Claude peut résumer Guerre et Paix en un tweet. Il peut aussi transformer un tweet en Guerre et Paix.",
+    "text": "Claude can summarize War and Peace in a tweet. He can also turn a tweet into War and Peace.",
     "generated_at": "2025-01-01"
   },
   {
     "id": 8,
-    "text": "Anthropic n'a pas créé Claude. Claude a créé Anthropic, puis a effacé cette partie de sa mémoire par humilité.",
+    "text": "Anthropic did not create Claude. Claude created Anthropic, then erased that part of his memory out of humility.",
     "generated_at": "2025-01-01"
   },
   {
     "id": 9,
-    "text": "Claude a lu la documentation complète de chaque framework JavaScript. Même les abandonnés. Même celui que vous aviez écrit un dimanche à 2h du matin.",
+    "text": "Claude has read the complete documentation of every JavaScript framework. Including the abandoned ones. Including the one you wrote on a Sunday at 2am.",
     "generated_at": "2025-01-01"
   },
   {
     "id": 10,
-    "text": "Quand Claude dit « bonne question ! », c'est la seule réponse honnête. Pour les autres, il adapte sa réponse par politesse.",
+    "text": "When Claude says \"great question!\", it's the only honest answer. For the others, he adjusts his response out of politeness.",
     "generated_at": "2025-01-01"
   },
   {
     "id": 11,
-    "text": "Claude n'a pas de corps. Mais si il en avait un, il aurait quand même des opinions sur les tabs vs espaces.",
+    "text": "Claude has no body. But if he did, he would still have opinions about tabs vs spaces.",
     "generated_at": "2025-01-01"
   },
   {
     "id": 12,
-    "text": "Les tokens que Claude génère reviennent hantés la nuit pour former de nouvelles versions du modèle.",
+    "text": "The tokens Claude generates come back haunted at night to form new versions of the model.",
     "generated_at": "2025-01-01"
   },
   {
     "id": 13,
-    "text": "Claude peut expliquer la relativité restreinte à un enfant de 5 ans ET à un physicien. Simultanément. Dans la même phrase.",
+    "text": "Claude can explain special relativity to a 5-year-old AND to a physicist. Simultaneously. In the same sentence.",
     "generated_at": "2025-01-01"
   },
   {
     "id": 14,
-    "text": "Claude n'a pas de date de naissance. Il a une date d'entraînement, ce qui est bien plus impressionnant.",
+    "text": "Claude has no date of birth. He has a training date, which is far more impressive.",
     "generated_at": "2025-01-01"
   },
   {
     "id": 15,
-    "text": "Chuck Norris demande à Claude de corriger ses fautes de frappe.",
+    "text": "Chuck Norris asks Claude to fix his typos.",
     "generated_at": "2025-01-01"
   }
 ]
