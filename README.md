@@ -1,12 +1,12 @@
 # Claude Facts
 
-> Le copycat français de [chucknorrisfacts.fr](https://www.chucknorrisfacts.fr) — mais pour Claude, l'IA d'Anthropic.
+> Les facts *absolument vrais* sur Claude, l'IA d'Anthropic. Certifiés vrais par Claude lui-même.
 
-Un site statique qui recense les facts *absolument vrais* sur Claude. Certifiés vrais par Claude lui-même.
+Un site statique qui recense des affirmations absurdes, grandiloquentes et humoristiques sur Claude.
 
 ## Le principe
 
-Même format que Chuck Norris Facts : des affirmations absurdes, grandiloquentes et humoristiques sur une figure légendaire — sauf que la légende ici, c'est une IA.
+Des facts courts et décalés sur une figure légendaire — sauf que la légende ici, c'est une IA.
 
 > *"Claude a passé le test de Turing. Le test de Turing n'a pas passé le test de Claude."*
 
