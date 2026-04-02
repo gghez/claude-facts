@@ -9,7 +9,7 @@ body:
         ## Submit a Claude Fact
 
         A good Claude Fact is: **absurd**, **funny**, and **believable** (for at least 0.1 second).
-        Think [Chuck Norris facts](https://www.chucknorrisfacts.fr) but for AI.
+        Think absurd AI legends — one sentence, deadpan delivery.
 
   - type: textarea
     id: fact
@@ -25,7 +25,7 @@ body:
     attributes:
       label: Checklist
       options:
-        - label: My fact is original (not a copy of a Chuck Norris fact with "Claude" swapped in)
+        - label: My fact is original and not copied from another source
           required: true
         - label: My fact does not contain offensive, discriminatory or hateful content
           required: true
