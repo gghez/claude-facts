@@ -1,0 +1,33 @@
+name: 💡 Proposer un Claude Fact
+description: Soumettez votre Claude Fact pour qu'il rejoigne le panthéon.
+title: "[FACT] "
+labels: ["proposed"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Proposer un Claude Fact
+
+        Un bon Claude Fact c'est : **absurde**, **drôle**, et **crédible** (au moins 0,1 seconde).
+        Inspirez-vous de [chucknorrisfacts.fr](https://www.chucknorrisfacts.fr) mais version IA.
+
+  - type: textarea
+    id: fact
+    attributes:
+      label: Le Fact
+      description: Une seule phrase. Pas de ponctuation finale obligatoire. Soyez créatifs.
+      placeholder: "Claude peut..."
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: rules
+    attributes:
+      label: Checklist
+      options:
+        - label: Mon fact est original (pas une copie d'un Chuck Norris fact avec « Claude » à la place)
+          required: true
+        - label: Mon fact ne contient pas de contenu offensant, discriminatoire ou haineux
+          required: true
+        - label: J'accepte que mon fact soit publié sur le site si validé
+          required: true
