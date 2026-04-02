@@ -1,22 +1,22 @@
-name: 💡 Proposer un Claude Fact
-description: Soumettez votre Claude Fact pour qu'il rejoigne le panthéon.
+name: 💡 Submit a Claude Fact
+description: Submit your Claude Fact to join the pantheon.
 title: "[FACT] "
 labels: ["proposed"]
 body:
   - type: markdown
     attributes:
       value: |
-        ## Proposer un Claude Fact
+        ## Submit a Claude Fact
 
-        Un bon Claude Fact c'est : **absurde**, **drôle**, et **crédible** (au moins 0,1 seconde).
-        Inspirez-vous de [chucknorrisfacts.fr](https://www.chucknorrisfacts.fr) mais version IA.
+        A good Claude Fact is: **absurd**, **funny**, and **believable** (for at least 0.1 second).
+        Think absurd AI legends — one sentence, deadpan delivery.
 
   - type: textarea
     id: fact
     attributes:
-      label: Le Fact
-      description: Une seule phrase. Pas de ponctuation finale obligatoire. Soyez créatifs.
-      placeholder: "Claude peut..."
+      label: The Fact
+      description: One sentence only. No trailing punctuation required. Be creative.
+      placeholder: "Claude can..."
     validations:
       required: true
 
@@ -25,9 +25,9 @@ body:
     attributes:
       label: Checklist
       options:
-        - label: Mon fact est original (pas une copie d'un Chuck Norris fact avec « Claude » à la place)
+        - label: My fact is original and not copied from another source
           required: true
-        - label: Mon fact ne contient pas de contenu offensant, discriminatoire ou haineux
+        - label: My fact does not contain offensive, discriminatory or hateful content
           required: true
-        - label: J'accepte que mon fact soit publié sur le site si validé
+        - label: I agree to have my fact published on the site if approved
           required: true
