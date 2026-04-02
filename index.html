@@ -277,6 +277,31 @@
     }
     .shuffle-btn:hover { border-color: var(--purple); color: var(--purple-2); }
 
+    /* ── Pagination ─────────────────────────────────────── */
+    .pagination {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 2rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+    }
+    .page-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 0.4rem 0.9rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+    }
+    .page-btn:hover:not(:disabled) { border-color: var(--purple); color: var(--purple-2); }
+    .page-btn:disabled { opacity: 0.3; cursor: default; }
+    .page-info { color: var(--muted); padding: 0 0.5rem; }
+
     .facts-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -617,6 +642,7 @@
     <div class="facts-grid" id="facts-grid">
       <p style="color:var(--muted)">Loading facts…</p>
     </div>
+    <div class="pagination" id="pagination"></div>
   </div>
 </section>
 
@@ -691,18 +717,24 @@
 <script>
   // --- Facts state ---
   let facts = [];
+  let displayList = [];   // current ordered list (may be shuffled)
   let translatedFacts = null;
   let isTranslated = false;
   let heroIndex = 0;
+  let currentPage = 1;
+  const PAGE_SIZE = 20;
 
   function displayFacts() { return isTranslated && translatedFacts ? translatedFacts : facts; }
 
   async function loadFacts() {
     const res = await fetch('facts.json');
     facts = await res.json();
+    // Show most recent first (highest id first)
+    facts = [...facts].sort((a, b) => b.id - a.id);
     document.getElementById('fact-count').textContent = facts.length;
     showRandomHero();
-    renderGrid(facts);
+    displayList = displayFacts();
+    renderPage(1);
   }
 
   function showRandomHero() {
@@ -723,8 +755,17 @@
   }
 
   function shuffleFacts() {
-    const shuffled = [...displayFacts()].sort(() => Math.random() - 0.5);
-    renderGrid(shuffled);
+    displayList = [...displayFacts()].sort(() => Math.random() - 0.5);
+    renderPage(1);
+  }
+
+  function renderPage(page) {
+    currentPage = page;
+    const start = (page - 1) * PAGE_SIZE;
+    const slice = displayList.slice(start, start + PAGE_SIZE);
+    renderGrid(slice);
+    renderPagination(displayList.length);
+    window.scrollTo({ top: document.querySelector('.facts-section').offsetTop - 20, behavior: 'smooth' });
   }
 
   function renderGrid(list) {
@@ -740,6 +781,17 @@
       `;
       grid.appendChild(card);
     });
+  }
+
+  function renderPagination(total) {
+    const totalPages = Math.ceil(total / PAGE_SIZE);
+    const container = document.getElementById('pagination');
+    if (totalPages <= 1) { container.innerHTML = ''; return; }
+    container.innerHTML = `
+      <button class="page-btn" onclick="renderPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>← prev</button>
+      <span class="page-info">${currentPage} / ${totalPages}</span>
+      <button class="page-btn" onclick="renderPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>next →</button>
+    `;
   }
 
   function escapeHtml(str) {
@@ -789,7 +841,8 @@
       // Restore English
       document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = el.dataset.en; });
       isTranslated = false;
-      renderGrid(facts);
+      displayList = facts;
+      renderPage(1);
       document.getElementById('hero-text').textContent = facts[heroIndex].text;
       btn.classList.remove('active');
       document.getElementById('lang-code').textContent = BROWSER_LANG.toUpperCase();
@@ -809,7 +862,8 @@
       }
 
       isTranslated = true;
-      renderGrid(translatedFacts);
+      displayList = translatedFacts;
+      renderPage(1);
       document.getElementById('hero-text').textContent = translatedFacts[heroIndex].text;
       btn.classList.remove('loading');
       btn.classList.add('active');
