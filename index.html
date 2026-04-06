@@ -693,7 +693,7 @@
     document.getElementById('fact-count').textContent = facts.length;
     showRandomHero();
     displayList = facts;
-    renderPage(1);
+    renderPage(1, { scrollToSection: false });
   }
 
   function showRandomHero() {
@@ -717,13 +717,16 @@
     renderPage(1);
   }
 
-  function renderPage(page) {
+  function renderPage(page, options = {}) {
+    const { scrollToSection = true } = options;
     currentPage = page;
     const start = (page - 1) * PAGE_SIZE;
     const slice = displayList.slice(start, start + PAGE_SIZE);
     renderGrid(slice);
     renderPagination(displayList.length);
-    window.scrollTo({ top: document.querySelector('.facts-section').offsetTop - 20, behavior: 'smooth' });
+    if (scrollToSection) {
+      window.scrollTo({ top: document.querySelector('.facts-section').offsetTop - 20, behavior: 'smooth' });
+    }
   }
 
   function renderGrid(list) {
